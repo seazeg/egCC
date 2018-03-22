@@ -1,0 +1,227 @@
+@charset "UTF-8";
+@import 'theme.config.less';
+.main-container {
+    height: 100%;
+    display: flex;
+    display: -webkit-flex; // flex-direction: row;
+    -webkit-flex-direction: row;
+    -webkit-align-content: stretch;
+    align-content: stretch;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid @shadow_color;
+    color: @font_color;
+}
+
+//标题
+.layout-header {
+    -webkit-app-region: drag;
+    background: @deputy_color;
+    border-bottom: 1px solid @border_color;
+    height: 40px;
+}
+
+.layout-header .title {
+    display: inline-block;
+    position: relative;
+    bottom: 4px;
+    color: @tools_color;
+    font-size: 14px;
+}
+
+.layout-header .logo {
+    display: inline-block;
+    margin: 10px 2px 10px 15px;
+    -webkit-app-region: no-drag;
+}
+
+.layout-header .logo>img {
+    width: 20px;
+    height: 20px;
+}
+
+.layout-header .tools {
+    float: right;
+}
+
+.layout-header .tools>a {
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid @shadow_color;
+    float: left;
+    font-size: 8px;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+
+.layout-header .tools>a:last-child {
+    background: @close_color
+}
+
+.layout-header .tools>a:hover {
+    background: @shadow_color;
+}
+
+.layout-header .tools>a:last-child:hover {
+    background: @close_hover_color
+}
+
+.layout-section {
+    display: flex;
+    border-top: 1px solid @shadow_color;
+    height: 100vh;
+    width: 100vw;
+}
+
+//左侧工具栏
+.layout-sidetools {
+    background: @main_color;
+    border-right: 1px solid @shadow_color;
+}
+
+.layout-sidetools .group .box {
+    padding: 2px 3px;
+    margin: 1px 0;
+    border-bottom: 1px solid @deputy_color;
+    display: inline-block;
+    margin: 1px
+}
+
+.layout-sidetools .group .box>a {
+    font-size: 30px;
+    color: @tools_color;
+    text-align: center;
+    padding: 0 2px;
+    border: 1px solid @main_color;
+}
+
+.layout-sidetools .group .box>a:hover {
+    background: @shadow_color;
+    border-radius: 5px;
+    border: 1px solid @deputy_color
+}
+
+.layout-sidetools .group .box>a.checked {
+    background: @border_color;
+    border-radius: 5px;
+    border: 1px solid @work_color
+}
+
+.layout-sidetools .operate {
+    width: 100%;
+    display: block;
+    background: @deputy_color;
+    font-size: 12px;
+    text-align: center;
+    padding: 2px 0;
+    border-bottom: 1px solid @shadow_color;
+    cursor: pointer;
+    color: @tools_color;
+}
+
+.layout-sidetools .operate:hover {
+    background: @work_color;
+    border-bottom: 1px solid @shadow_color;
+}
+
+//工作区
+.layout-workarea {
+    -webkit-flex: 1;
+    flex: 1;
+    position: relative;
+    background: @work_color;
+}
+
+.layout-workarea .wrapper {
+    height: 100%;
+    width: 100vw;
+    padding: 2px;
+    display: flex; // align-items: center;
+}
+
+
+.layout-workarea .view{
+    width: 60%;
+    display: inline-block;
+    margin-right: 30px;
+}
+.layout-workarea .view-box {
+    height:85vh;
+}
+
+.layout-workarea .view-box.preview {
+    // width: 60%;
+    // display: inline-block;
+    background: url('../images/background.png');
+    // height:85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.layout-workarea .view .el-tabs--border-card{
+    background: @work_color;
+    border: 1px solid @shadow_color;
+    height:100%;
+}
+
+.layout-workarea .view .el-tabs--border-card>.el-tabs__header{
+    background: @main_color;
+    border-bottom: 1px solid @shadow_color;
+}
+
+.layout-workarea .view .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+    background: @border_color;
+    border-right-color: @shadow_color;
+    border-left-color:@shadow_color;
+    color:@tools_color
+}
+
+.layout-workarea .view  .el-tabs--border-card>.el-tabs__header .el-tabs__item{
+color:@font_color;
+}
+
+.layout-workarea .edit {
+    width: 30%;
+    display: inline-block;
+}
+
+.layout-workarea .edit .box {
+    // margin-bottom: 5px;
+    height:75px;
+}
+
+.layout-workarea .edit .box .left,
+.layout-workarea .edit .box .right {
+    display: block;
+    width: 48%;
+    margin-bottom: 5px;
+}
+
+
+.layout-workarea .edit .box .left{
+    float: left
+}
+
+.layout-workarea .edit .box .right {
+   float: right
+}
+
+.layout-workarea .edit .box span.field {
+    margin: 10px 0 5px 0;
+    display: inline-block;
+    text-transform: capitalize;
+}
+
+.layout-workarea .edit .box p.group>div {
+   float: left;
+}
+
+.layout-workarea .edit .box p.group>div:last-child {
+   width:75%;
+   margin-left:4%;
+ }
+
+
+ 
