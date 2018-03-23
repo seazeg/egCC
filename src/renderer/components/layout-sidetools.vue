@@ -18,61 +18,31 @@
           "name": "按钮",
           "eName": "button",
           "icon": "icon-anniu",
-          "href": "/work",
+          "href": "/button",
           "flag": false
         }, {
-          "name": "按钮",
-          "eName": "button",
+          "name": "文本框",
+          "eName": "input",
           "icon": "icon-danhangshurukuang",
-          "href": "/work",
+          "href": "/input",
           "flag": false
-        }, {
-          "name": "按钮",
-          "eName": "button",
-          "icon": "icon-shuzishurukuang",
-          "href": "/work",
-          "flag": false
-        }, {
-          "name": "按钮",
-          "eName": "button",
-          "icon": "icon-duohangshurukuang",
-          "href": "/work",
-          "flag": false
-        }, {
-          "name": "按钮",
-          "eName": "button",
-          "icon": "icon-sousuokuang",
-          "href": "/work",
-          "flag": false
-        }, {
-          "name": "按钮",
-          "eName": "button",
-          "icon": "icon-xialakuangbiaodan",
-          "href": "/work",
-          "flag": false
-        }, {
-          "name": "按钮",
-          "eName": "button",
-          "icon": "icon-38kaiguanguan1",
-          "href": "/work",
-          "flag": false
-        }, {
-          "name": "按钮",
+        },{
+          "name": "单选",
           "eName": "button",
           "icon": "icon-danxuanyixuan",
-          "href": "/work",
+          "href": "/radio",
           "flag": false
-        }, {
-          "name": "按钮",
-          "eName": "button",
-          "icon": "icon-sousuokuang",
-          "href": "/work",
-          "flag": false
-        }, {
-          "name": "按钮",
+        },{
+          "name": "多选",
           "eName": "button",
           "icon": "icon-duoxuanyixuan",
-          "href": "/work",
+          "href": "/checkbox",
+          "flag": false
+        },{
+          "name": "下拉框",
+          "eName": "button",
+          "icon": "icon-xialakuangbiaodan",
+          "href": "/select",
           "flag": false
         }]
       }

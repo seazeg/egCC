@@ -1,5 +1,8 @@
 @charset "UTF-8";
 @import 'theme.config.less';
+code{
+    overflow-x: hidden!important;
+}
 ::-webkit-scrollbar {
     width: 8px;
     height: 5px;
@@ -159,9 +162,9 @@
 }
 
 .layout-workarea .view {
-    width: 60%;
+    width: 59%;
     display: inline-block;
-    margin-right: 30px;
+    // margin-right: 30px;
 }
 
 .layout-workarea .view-box {
@@ -197,8 +200,8 @@
 .layout-workarea .view-box.html pre {
     width: 100%;
     height: 100%;
-    overflow-y: hidden;
-    padding: 0 20px;
+    overflow-x: hidden;
+    padding: 0 10px;
     line-height: 25px;
     border: 1px solid @work_color;
 }
@@ -210,6 +213,10 @@
     font-family: Consolas;
     font-style: normal;
     font-size: 16px;
+}
+
+.layout-workarea .view-box.js pre code{
+    font-size: 14px;
 }
 
 .layout-workarea .view .el-tabs--border-card {
@@ -235,8 +242,20 @@
 }
 
 .layout-workarea .edit {
-    width: 30%;
+    // width: 30%;
     display: inline-block;
+    padding:13px;
+    overflow-y: auto;
+}
+
+.layout-workarea .edit  .control_group_title{
+font-size: 14px;
+margin-bottom:10px;
+}
+.layout-workarea .edit .control_group{
+    padding:17px;
+    border: 1px dashed @shadow_color;
+    margin-bottom:10px;
 }
 
 .layout-workarea .edit .box {
@@ -263,6 +282,7 @@
     margin: 10px 0 5px 0;
     display: inline-block;
     text-transform: capitalize;
+    font-size: 14px;
 }
 
 .layout-workarea .edit .box p.group>div {

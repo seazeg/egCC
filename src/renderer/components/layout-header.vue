@@ -4,7 +4,7 @@
         <span class="title">Custom Controls Ver.1.0</span>
         <div class="tools">
             <a class="iconfont icon-zuixiaohua" @click="winHandle('min')"></a>
-            <a class="iconfont icon-zuidahua" @click="winHandle('max')"></a>
+            <!-- <a class="iconfont icon-zuidahua" @click="winHandle('max')"></a> -->
             <a class="iconfont icon-guanbi" @click="winHandle('close')"> </a>
         </div>
     </div>

@@ -84,7 +84,11 @@ let webConfig = {
       'process.env.IS_WEB': 'true'
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.ProvidePlugin({
+      jQuery: "jquery",
+      $: "jquery"
+    })
   ],
   output: {
     filename: '[name].js',
@@ -93,7 +97,8 @@ let webConfig = {
   resolve: {
     alias: {
       '@': path.join(__dirname, '../src/renderer'),
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm.js',
+      'jquery': 'jquery'
     },
     extensions: ['.js', '.vue', '.json', '.css']
   },
@@ -118,6 +123,10 @@ if (process.env.NODE_ENV === 'production') {
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    }),
+    new webpack.ProvidePlugin({
+      jQuery: "jquery",
+      $: "jquery"
     })
   )
 }

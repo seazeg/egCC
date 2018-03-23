@@ -20,9 +20,13 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     height: 750,
     width: 1300,
+    maxHeight:750,
+    maxWidth:1300,
     minHeight:750,
     minWidth:1300,
     useContentSize: true,
+    resizable:false,
+    fullscreen:false,
     frame: false,titleBarStyle: 'customButtonsOnHover'}
   )
 
@@ -41,13 +45,13 @@ function createWindow () {
 
 // 利用ipc让html标签获取主进程的方法,最小化,最大化,关闭
 ipcMain.on('min', e=> mainWindow.minimize());
-ipcMain.on('max', e=> {
-    if (mainWindow.isMaximized()) {
-        mainWindow.unmaximize()
-    } else {
-        mainWindow.maximize()
-    }
-});
+// ipcMain.on('max', e=> {
+//     if (mainWindow.isMaximized()) {
+//         mainWindow.unmaximize()
+//     } else {
+//         mainWindow.maximize()
+//     }
+// });
 ipcMain.on('close', e=> mainWindow.close());
 // ipcMain.on('close', e=> mainWindow.zoom());
 
