@@ -6,7 +6,7 @@
           <span slot="label" class="lab-icon">
             <i class="iconfont icon-yulan"></i>preview</span>
           <div class="view-box preview">
-            <span :style="buttonStyle">{{toolsParam.buttonText}}</span>
+            <span :style="buttonStyle[0]" :onMouseOver='buttonHoverStyle[1]' :onMouseOut='buttonStyle[1]'>{{toolsParam.buttonText}}</span>
           </div>
         </el-tab-pane>
         <el-tab-pane name="html">
@@ -43,7 +43,6 @@
       </el-tabs>
     </div>
     <div class="edit">
-
       <div class="control_group_title">基础属性：</div>
       <div class="control_group">
         <div class="box">
@@ -191,9 +190,9 @@
           fontSize: 32,
           color: '#fff',
           background: '#ca4341',
-          hoverColor: '',
-          hoverBackground: '#111',
-          hoverBorderWidth: '2',
+          hoverColor: '#111',
+          hoverBackground: '#fff',
+          hoverBorderWidth: 2,
           hoverBorderStyle: 'solid',
           hoverBorderColor: '#111',
         },
@@ -230,34 +229,65 @@
     },
     computed: {
       buttonStyle: function () {
-        return {
-          'display': 'inline-block',
-          'width': this.toolsParam.width - this.toolsParam.borderWidth * 2 - 20 + 'px',
-          'height': this.toolsParam.height - this.toolsParam.borderWidth * 2 + 'px',
-          'line-height': this.toolsParam.height - this.toolsParam.borderWidth * 2 + 'px',
-          'text-align': 'center',
-          'background': this.toolsParam.background,
-          'color': this.toolsParam.color,
-          'border': this.toolsParam.borderWidth + 'px ' + this.toolsParam.borderStyle + ' ' + this.toolsParam.borderColor,
-          'border-radius': this.toolsParam.borderRadius + 'px',
-          'font-size': this.toolsParam.fontSize + 'px',
-          'cursor': 'pointer',
-          'padding': '0 10px'
-        }
+        var o = {
+            'display': 'inline-block',
+            'width': this.toolsParam.width + 'px',
+            'height': this.toolsParam.height + 'px',
+            'line-height': this.toolsParam.height - this.toolsParam.borderWidth * 2 + 'px',
+            'text-align': 'center',
+            'background': this.toolsParam.background,
+            'color': this.toolsParam.color,
+            'border': this.toolsParam.borderWidth + 'px ' + this.toolsParam.borderStyle + ' ' + this.toolsParam.borderColor,
+            'border-radius': this.toolsParam.borderRadius + 'px',
+            'font-size': this.toolsParam.fontSize + 'px',
+            'cursor': 'pointer',
+            // 'padding': '0 10px'
+          },
+          str = 'this.style.cssText="' + JSON.stringify(o).replace(/,/g, ';').replace(/"/g, '').replace(
+            '{', '')
+          .replace('}', '') + '"';
+
+        return [o, str];
       },
       buttonHoverStyle: function () {
-        return {
-          'background': this.toolsParam.background,
-          'color': this.toolsParam.color,
-          'border': this.toolsParam.borderWidth + 'px ' + this.toolsParam.borderStyle + ' ' + this.toolsParam.borderColor,
-          'border-radius': this.toolsParam.borderRadius + 'px',
-        }
+        var o = {
+            'background': this.toolsParam.hoverBackground,
+            'color': this.toolsParam.hoverColor,
+            'border': this.toolsParam.hoverBorderWidth + 'px ' + this.toolsParam.hoverBorderStyle + ' ' + this.toolsParam
+              .hoverBorderColor,
+            'display': 'inline-block',
+            'width': this.toolsParam.width + 'px',
+            'height': this.toolsParam.height + 'px',
+            'line-height': this.toolsParam.height - this.toolsParam.borderWidth * 2 + 'px',
+            'text-align': 'center',
+            'border-radius': this.toolsParam.borderRadius + 'px',
+            'font-size': this.toolsParam.fontSize + 'px',
+            'cursor': 'pointer',
+            'padding': '0 10px'
+          },
+          str = 'this.style.cssText="' + JSON.stringify(o).replace(/,/g, ';').replace(/"/g, '').replace('{',
+            '')
+          .replace('}', '') + '"',
+          display = {
+            'background': this.toolsParam.hoverBackground,
+            'color': this.toolsParam.hoverColor,
+            'border': this.toolsParam.hoverBorderWidth + 'px ' + this.toolsParam.hoverBorderStyle + ' ' + this.toolsParam
+              .hoverBorderColor
+          }
+        return [o, str, display];
       },
       formatCSS: function () {
-        var o = this.buttonStyle,
+        var o = this.buttonStyle[0],
+          oo = this.buttonHoverStyle[2],
           result = '.' + this.toolsParam.buttonObj + ' {' + '\n';
         for (var i in o) {
           result += '\t' + i + ":" + o[i] + ';\n';
+        }
+        result += '}\n';
+        result += '.' + this.toolsParam.buttonObj + ':hover {' + '\n';
+        for (var ii in oo) {
+          result += '\t' + ii + ":" + oo[ii] + ';\n';
+
         }
         result += '}';
         return result
@@ -266,7 +296,7 @@
         return `<span class="` + this.toolsParam.buttonObj + `">` + this.toolsParam.buttonText + `</span>`
       },
       jsCode: function () {
-        return 'nothing'
+        return ''
       }
     }
   }

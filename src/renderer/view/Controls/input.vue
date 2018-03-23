@@ -156,17 +156,17 @@
         toolsParam: {
           placeholderText: '请输入内容',
           inputBox: 'eg_input',
-          inputObj: '_eq_input',
+          inputObj: '_eg_input',
           placeholderObj: '_eg_placeholder',
           width: 300,
           height: 60,
-          borderWidth: 1,
+          borderWidth: 2,
           borderStyle: 'solid',
-          borderColor: '#999',
-          borderRadius: 5,
+          borderColor: '#282828',
+          borderRadius: 1,
           fontSize: 20,
-          color: '#999',
-          background: '#fff'
+          color: '#fff',
+          background: '#6a6a6a'
         },
         borderOpt: [{
           value: 'solid',
@@ -203,8 +203,8 @@
       inputStyle: function () {
         return {
           'display': 'inline-block',
-          'width': this.toolsParam.width - this.toolsParam.borderWidth * 2 - 20 + 'px',
-          'height': this.toolsParam.height - this.toolsParam.borderWidth * 2 + 'px',
+          'width': this.toolsParam.width + 'px',
+          'height': this.toolsParam.height + 'px',
           'line-height': this.toolsParam.height - this.toolsParam.borderWidth * 2 + 'px',
           'background': this.toolsParam.background,
           'color': this.toolsParam.color,
@@ -227,7 +227,7 @@
       },
       formatCSS: function () {
         var o = this.inputStyle,
-          o2 = this.placeStyle,
+          oo = this.placeStyle,
           result = `.` + this.toolsParam.inputBox + ` {position: relative;}\n`;
         result += '.' + this.toolsParam.inputBox + ' >.' + this.toolsParam.inputObj + ' {' + '\n';
         for (var i in o) {
@@ -235,8 +235,8 @@
         }
         result += '}\n';
         result += '.' + this.toolsParam.inputBox + ' >.' + this.toolsParam.placeholderObj + ' {' + '\n';
-        for (var ii in o2) {
-          result += '\t' + ii + ":" + o2[ii] + ';\n';
+        for (var ii in oo) {
+          result += '\t' + ii + ":" + oo[ii] + ';\n';
         }
         result += '}';
         return result
