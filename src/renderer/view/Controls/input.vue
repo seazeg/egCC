@@ -161,12 +161,12 @@
           width: 300,
           height: 60,
           borderWidth: 2,
-          borderStyle: 'solid',
+          borderStyle: 'double',
           borderColor: '#282828',
           borderRadius: 1,
           fontSize: 20,
-          color: '#fff',
-          background: '#6a6a6a'
+          color: '#111',
+          background: '#fff'
         },
         borderOpt: [{
           value: 'solid',
