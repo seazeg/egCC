@@ -1,5 +1,6 @@
 import { app, BrowserWindow,ipcMain,Tray  } from 'electron'
 
+const exec  = require('child_process').exec;
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -54,7 +55,19 @@ ipcMain.on('min', e=> mainWindow.minimize());
 // });
 ipcMain.on('close', e=> mainWindow.close());
 // ipcMain.on('close', e=> mainWindow.zoom());
+ipcMain.on('uploadImg',function(e,path){
+  // console.log(file);
+  // exec('G:/GengWebsite/egCC/src/bin/win/pngquant.exe '+ file.raw.path, function(error, stdout, stderr){
+    exec('G:/GengWebsite/egCC/src/bin/win/pngquant.exe '+ path, function(error, stdout, stderr){
+    if(error) {
+        console.error('error: ' + error);
+        return;
+    }
+    console.log('输出: ' + stdout);    
+    // console.log('stderr: ' + typeof stderr);
+});
 
+})
 
 app.on('ready', createWindow)
 

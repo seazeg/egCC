@@ -1,8 +1,9 @@
 @charset "UTF-8";
 @import 'theme.config.less';
-code{
-    overflow-x: hidden!important;
+code {
+    overflow-x: hidden !important;
 }
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 5px;
@@ -104,8 +105,7 @@ code{
 .layout-sidetools .group .box {
     padding: 2px 3px;
     margin: 1px 0;
-    border-bottom: 1px solid @deputy_color;
-    // display: inline-block;
+    border-bottom: 1px solid @deputy_color; // display: inline-block;
     margin: 1px
 }
 
@@ -155,16 +155,14 @@ code{
 }
 
 .layout-workarea .wrapper {
-    height: 100%;
-    // width: 100vw;
+    height: 100%; // width: 100vw;
     padding: 2px;
     display: flex; // align-items: center;
 }
 
 .layout-workarea .view {
     width: 59%;
-    display: inline-block;
-    // margin-right: 30px;
+    display: inline-block; // margin-right: 30px;
 }
 
 .layout-workarea .view-box {
@@ -179,21 +177,20 @@ code{
     justify-content: center;
     align-items: center;
 }
-.layout-workarea .view .lab-icon{
-   font-size:14px;
-   text-transform: capitalize;
- }
 
- 
-.layout-workarea .view .lab-icon>i{
-   color:@font_color;
-   font-size: 20px;
-   vertical-align: middle;
-   margin-right:2px;
-   position: relative;
-   bottom:2px;
+.layout-workarea .view .lab-icon {
+    font-size: 14px;
+    text-transform: capitalize;
 }
 
+.layout-workarea .view .lab-icon>i {
+    color: @font_color;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-right: 2px;
+    position: relative;
+    bottom: 2px;
+}
 
 .layout-workarea .view-box.css pre,
 .layout-workarea .view-box.js pre,
@@ -208,14 +205,14 @@ code{
 
 .layout-workarea .view-box.css pre code,
 .layout-workarea .view-box.js pre code,
-.layout-workarea .view-box.html pre code{
+.layout-workarea .view-box.html pre code {
     background: @work_color;
     font-family: Consolas;
     font-style: normal;
     font-size: 16px;
 }
 
-.layout-workarea .view-box.js pre code{
+.layout-workarea .view-box.js pre code {
     font-size: 14px;
 }
 
@@ -244,18 +241,19 @@ code{
 .layout-workarea .edit {
     // width: 30%;
     display: inline-block;
-    padding:13px;
+    padding: 13px;
     overflow-y: auto;
 }
 
-.layout-workarea .edit  .control_group_title{
-font-size: 14px;
-margin-bottom:10px;
+.layout-workarea .edit .control_group_title {
+    font-size: 14px;
+    margin-bottom: 10px;
 }
-.layout-workarea .edit .control_group{
-    padding:17px;
+
+.layout-workarea .edit .control_group {
+    padding: 17px;
     border: 1px dashed @shadow_color;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
 .layout-workarea .edit .box {
@@ -293,3 +291,33 @@ margin-bottom:10px;
     width: 75%;
     margin-left: 4%;
 }
+
+.layout-workarea .upload-box {
+    width: 100%;
+    height: 100%;
+    text-align: center
+}
+
+.layout-workarea .upload-box .el-upload{
+    width: 100%;
+    height: 100%
+}
+
+.layout-workarea .upload-box .el-upload-dragger {
+    background: @work_color;
+    border: none;
+    width: auto;
+    height: 100%;
+}
+
+.layout-workarea .upload-box .el-upload-dragger .el-icon-upload {
+    font-size: 300px;
+    margin-top:300px;
+}
+
+.layout-workarea .upload-box .el-upload-dragger .el-upload__text {
+    font-size: 16px;
+    margin-top:20px;
+}
+
+

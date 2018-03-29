@@ -44,6 +44,12 @@
           "icon": "icon-xialakuangbiaodan",
           "href": "/select",
           "flag": false
+        },{
+          "name": "下拉框",
+          "eName": "button",
+          "icon": "icon-yulan",
+          "href": "/compressIMG",
+          "flag": false
         }]
       }
     },
