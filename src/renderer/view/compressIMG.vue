@@ -26,17 +26,30 @@
             },
             change(file, fileList) {
                 // console.log(fileList);
-                // console.log(this.fileList2);
-                ipc.send('uploadImg', file.raw.path);
-                this.success();
+                var pathList = []
+                for (var i in fileList) {
+                    // var a = fileList[i].raw.path.replace("/\/g",'0')
+                    // console.log(a);
+                    pathList.push(fileList[i].raw.path);
+                }
+                ipc.send('uploadImg', pathList);
+
+                ipc.on('uploadImg-return', (e, result) => {
+                    // console.log(arg);
+                    this.success(result);
+                })
+
+
             },
-            success() {
-                this.$notify({
-                    title: '成功',
-                    message: '转换成功!',
-                    type: 'success',
-                    position: 'bottom-right'
-                });
+            success(result) {
+                if (result) {
+                    this.$notify({
+                        title: '成功',
+                        message: '转换成功!',
+                        type: 'success',
+                        position: 'bottom-right'
+                    });
+                }
             },
             // success2() {
             //     this.$message({

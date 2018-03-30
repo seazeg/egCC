@@ -1,6 +1,14 @@
-import { app, BrowserWindow,ipcMain,Tray  } from 'electron'
+import {
+  app,
+  BrowserWindow,
+  ipcMain,
+  Tray
+} from 'electron'
 
-const exec  = require('child_process').exec;
+const child_process = require('child_process');
+const fs = require("fs");
+const watch = require("./watch")
+
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -10,26 +18,27 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow
-const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:9080`
-  : `file://${__dirname}/index.html`
+const winURL = process.env.NODE_ENV === 'development' ?
+  `http://localhost:9080` :
+  `file://${__dirname}/index.html`
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
     height: 750,
     width: 1300,
-    maxHeight:750,
-    maxWidth:1300,
-    minHeight:750,
-    minWidth:1300,
+    maxHeight: 750,
+    maxWidth: 1300,
+    minHeight: 750,
+    minWidth: 1300,
     useContentSize: true,
-    resizable:false,
-    fullscreen:false,
-    frame: false,titleBarStyle: 'customButtonsOnHover'}
-  )
+    resizable: false,
+    fullscreen: false,
+    frame: false,
+    titleBarStyle: 'customButtonsOnHover'
+  })
 
   mainWindow.loadURL(winURL)
 
@@ -44,30 +53,41 @@ function createWindow () {
 }
 
 
+
+
+
+
 // 利用ipc让html标签获取主进程的方法,最小化,最大化,关闭
-ipcMain.on('min', e=> mainWindow.minimize());
-// ipcMain.on('max', e=> {
-//     if (mainWindow.isMaximized()) {
-//         mainWindow.unmaximize()
-//     } else {
-//         mainWindow.maximize()
-//     }
-// });
-ipcMain.on('close', e=> mainWindow.close());
-// ipcMain.on('close', e=> mainWindow.zoom());
-ipcMain.on('uploadImg',function(e,path){
-  // console.log(file);
-  // exec('G:/GengWebsite/egCC/src/bin/win/pngquant.exe '+ file.raw.path, function(error, stdout, stderr){
-    exec('G:/GengWebsite/egCC/src/bin/win/pngquant.exe '+ path, function(error, stdout, stderr){
-    if(error) {
-        console.error('error: ' + error);
-        return;
-    }
-    console.log('输出: ' + stdout);    
-    // console.log('stderr: ' + typeof stderr);
-});
+ipcMain.on('min', e => mainWindow.minimize());
+ipcMain.on('close', e => mainWindow.close());
+ipcMain.on('uploadImg', function (e, list) {
+  const _dir = process.cwd()
+  for (var i in list) {
+    let path = list[i];
+    const workerProcess = child_process.spawn(_dir + '/bin/win/pngquant.exe ', [path]);
+
+    workerProcess.stdout.on('data', function (data) {
+      console.log('stdout: ' + data);
+    });
+
+    workerProcess.stderr.on('data', function (data) {
+      console.log('stderr: ' + data);
+    });
+
+    workerProcess.on('close', function (code) {
+      console.log('子进程已退出，退出码 ' + code);
+    });
+
+    let filePath = list[i].replace(list[i].split('\\')[list[i].split('\\').length - 1], ""),
+      fileName = list[i].split('\\')[list[i].split('\\').length - 1];
+    // fileName = fileName.split(',')[0] + '-fs8' + fileName.split(',')[1]
+
+    e.sender.send('uploadImg-return', true)
+  }
 
 })
+
+
 
 app.on('ready', createWindow)
 
