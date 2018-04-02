@@ -18,8 +18,8 @@ const compressJS = resolve => require(['../view/compressJS.vue'], resolve);
 export default new Router({
   routes: [{
     path: '/',
-    name: 'home',
-    component: home
+    name: 'compressIMG',
+    component: compressIMG
   }, {
     path: '/button',
     name: 'button',

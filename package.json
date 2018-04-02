@@ -21,6 +21,7 @@
     "postinstall": ""
   },
   "dependencies": {
+    "amqp": "^0.2.6",
     "axios": "^0.16.1",
     "chokidar": "^2.0.3",
     "element-ui": "^2.2.2",

@@ -4,11 +4,14 @@ import {
   ipcMain,
   Tray
 } from 'electron'
+import {
+  JQUERY_DEBUGGER
+} from 'electron-devtools-installer';
 
 const child_process = require('child_process');
 const fs = require("fs");
-const watch = require("./watch")
-
+const ck = require('chokidar')
+var async = require('async');
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -60,30 +63,55 @@ function createWindow() {
 // 利用ipc让html标签获取主进程的方法,最小化,最大化,关闭
 ipcMain.on('min', e => mainWindow.minimize());
 ipcMain.on('close', e => mainWindow.close());
-ipcMain.on('uploadImg', function (e, list) {
-  const _dir = process.cwd()
+ipcMain.on('uploadImg', function (event, list) {
+  const _dir = process.cwd();
+
+
   for (var i in list) {
     let path = list[i];
-    const workerProcess = child_process.spawn(_dir + '/bin/win/pngquant.exe ', [path]);
-
-    workerProcess.stdout.on('data', function (data) {
-      console.log('stdout: ' + data);
-    });
-
-    workerProcess.stderr.on('data', function (data) {
-      console.log('stderr: ' + data);
-    });
-
-    workerProcess.on('close', function (code) {
-      console.log('子进程已退出，退出码 ' + code);
-    });
-
     let filePath = list[i].replace(list[i].split('\\')[list[i].split('\\').length - 1], ""),
-      fileName = list[i].split('\\')[list[i].split('\\').length - 1];
-    // fileName = fileName.split(',')[0] + '-fs8' + fileName.split(',')[1]
+      tempName = list[i].split('\\')[list[i].split('\\').length - 1],
+      fileName = tempName.split('.')[0] + '-fs8.' + tempName.split('.')[1];
 
-    e.sender.send('uploadImg-return', true)
+    child_process.spawn(_dir + '/bin/win/pngquant.exe', [path, '-v']).on('close', function (code) {
+      if (code == 0) {
+        console.log('子进程已退出，退出码 ', code);
+        event.sender.send('uploadImg-return', {
+          flag: true,
+          fileName: fileName
+        })
+      }
+    });
+
+    // workerProcess.stdout.on('data', function (data) {
+    //   console.log('stdout: ' + data);
+    // });
+
+    // workerProcess.stderr.on('data', function (data) {
+    //   console.log('stderr: ' + data);
+    // });
+
+
+
+    // let filePath = list[i].replace(list[i].split('\\')[list[i].split('\\').length - 1], ""),
+    //   tempName = list[i].split('\\')[list[i].split('\\').length - 1],
+    //   fileName = tempName.split('.')[0] + '-fs8.' + tempName.split('.')[1];
+
+    // let ready = false;
+    // ck.watch(filePath).on('add', function (e) {
+    //   if (ready) {
+    //     if (e == filePath + fileName) {
+    //       event.sender.send('uploadImg-return', e)
+    //     }
+    //   }
+    // }).on('ready', function () {
+    //   console.info('Initial scan complete. Ready for changes.');
+    //   ready = true
+    // });
+
   }
+
+
 
 })
 
