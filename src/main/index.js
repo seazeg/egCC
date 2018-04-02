@@ -71,43 +71,51 @@ ipcMain.on('uploadImg', function (event, list) {
     let path = list[i];
     let filePath = list[i].replace(list[i].split('\\')[list[i].split('\\').length - 1], ""),
       tempName = list[i].split('\\')[list[i].split('\\').length - 1],
-      fileName = tempName.split('.')[0] + '-fs8.' + tempName.split('.')[1];
+      fileName = tempName.split('.')[0] + '-fs8.' + tempName.split('.')[1],
+      imgType = tempName.split('.')[1]
 
-    child_process.spawn(_dir + '/bin/win/pngquant.exe', [path, '-v']).on('close', function (code) {
-      if (code == 0) {
-        console.log('子进程已退出，退出码 ', code);
-        event.sender.send('uploadImg-return', {
-          flag: true,
-          fileName: fileName
-        })
-      }
-    });
+    if (imgType == 'png') {
+      child_process.spawn(_dir + '/bin/win/pngquant.exe', [path, '-v']).on('close', function (code) {
+        if (code == 0) {
+          console.log('子进程已退出，退出码 ', code);
+          event.sender.send('uploadImg-return', {
+            flag: true,
+            oldFile: tempName,
+            newFile: fileName,
+            filePath: filePath
+          })
+        }
+      });
+    } else if (imgType == 'jpg' || imgType == 'jpeg') {
+      console.log(fileName);
+      console.log(path);
+      var workerProcess = child_process.spawn(_dir + '/bin/win//moz-cjpeg.exe', ['-outfile', path + fileName, path]).on('close', function (code) {
+        if (code == 0) {
+          console.log('子进程已退出，退出码 ', code);
+          event.sender.send('uploadImg-return', {
+            flag: true,
+            oldFile: tempName,
+            newFile: fileName,
+            filePath: filePath
+          })
+        }
+      });
 
-    // workerProcess.stdout.on('data', function (data) {
-    //   console.log('stdout: ' + data);
-    // });
 
-    // workerProcess.stderr.on('data', function (data) {
-    //   console.log('stderr: ' + data);
-    // });
+      workerProcess.stdout.on('data', function (data) {
+        console.log('stdout: ' + data);
+      });
 
+      workerProcess.stderr.on('data', function (data) {
+        console.log('stderr: ' + data);
+      });
+    } else {
+      event.sender.send('uploadImg-return', {
+        flag: false,
+        error: "非png,jpg,jpeg图片"
+      })
+    }
 
-
-    // let filePath = list[i].replace(list[i].split('\\')[list[i].split('\\').length - 1], ""),
-    //   tempName = list[i].split('\\')[list[i].split('\\').length - 1],
-    //   fileName = tempName.split('.')[0] + '-fs8.' + tempName.split('.')[1];
-
-    // let ready = false;
-    // ck.watch(filePath).on('add', function (e) {
-    //   if (ready) {
-    //     if (e == filePath + fileName) {
-    //       event.sender.send('uploadImg-return', e)
-    //     }
-    //   }
-    // }).on('ready', function () {
-    //   console.info('Initial scan complete. Ready for changes.');
-    //   ready = true
-    // });
 
   }
 

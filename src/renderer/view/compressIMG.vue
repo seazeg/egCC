@@ -5,6 +5,7 @@
             <div class="el-upload__text">将文件拖到此处进行压缩
             </div>
         </el-upload>
+
     </div>
 </template>
 <script>
@@ -32,22 +33,23 @@
                 ipc.send('uploadImg', pathList);
 
             },
-            success(result) {
+            notify(result) {
                 if (result.flag) {
-                    this.$notify({
-                        title: result.fileName + '压缩成功',
-                        message: '转换成功!',
+                    this.$notify.success({
+                        title: '压缩成功',
+                        message: result.filePath + result.newFile,
+                        dangerouslyUseHTMLString: true,
                         type: 'success',
-                        position: 'bottom-right'
+                        position: 'bottom-right',
+                        duration: 0
                     });
                 }
             }
         },
         mounted() {
             ipc.on('uploadImg-return', (e, result) => {
-                this.success(result);
+                this.notify(result);
             })
-
         }
     }
 </script>
