@@ -1,11 +1,19 @@
 <template>
     <div class="wrapper">
-        <el-upload class="upload-box" action="" :on-change="change" :on-remove="handleRemove" drag :auto-upload='false' multiple>
+        <el-upload class="upload-box" action="" ref="uploadImg" :on-change="change" :on-exceed="notice" drag :auto-upload='false'
+            multiple :limit=10>
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处进行压缩
             </div>
         </el-upload>
+        <!-- <el-badge :value="resultNum" class="img_result_list">
+            <i class="iconfont icon-menu2" @click="openFile()"></i>
+            <div class="file_list">
+                <p v-for="(item,index) in fileList">{{index+1}}.{{item.name}}<i>{{item.flag}}</i></p>
+            </div>
+        </el-badge> -->
 
+        <el-button type="info" round @click="compress">压缩</el-button>
     </div>
 </template>
 <script>
@@ -15,23 +23,43 @@
     export default {
         data() {
             return {
-                fileList2: []
+                resultNum: 0,
+                filePath: "",
+                pathList: [],
+                fileList: []
             };
         },
         methods: {
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
+            openFile() {
+                console.log(this.filePath);
+            },
+            notice() {
+                alert("一次最多转换10张图片");
             },
             change(file, fileList) {
-                // console.log(fileList);
-                var pathList = []
+                var pathList = [],
+                    tmpfileList = []
                 for (var i in fileList) {
-                    // var a = fileList[i].raw.path.replace("/\/g",'0')
-                    // console.log(a);
                     pathList.push(fileList[i].raw.path);
+                    tmpfileList.push({
+                        flag: false,
+                        name: fileList[i].name,
+                        filePath: fileList[i].raw.path
+                    })
                 }
-                ipc.send('uploadImg', pathList);
+                this.filePath = fileList[0].raw.path.split("\\").slice(0, fileList[0].raw.path.split("\\").length -
+                    1).join("\\");
 
+                this.pathList = pathList;
+                this.fileList = tmpfileList;
+
+            },
+            compress() {
+                if (!!this.pathList.length) {
+                    ipc.send('uploadImg', this.pathList);
+                    this.$refs.uploadImg.clearFiles();
+                    this.pathList = [];
+                }
             },
             notify(result) {
                 if (result.flag) {
@@ -41,8 +69,9 @@
                         dangerouslyUseHTMLString: true,
                         type: 'success',
                         position: 'bottom-right',
-                        duration: 0
+                        duration: 2000
                     });
+                    this.resultNum++;
                 }
             }
         },
