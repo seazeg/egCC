@@ -1,19 +1,31 @@
 <template>
     <div class="wrapper">
-        <el-upload class="upload-box" action="" ref="uploadImg" :on-change="change" :on-exceed="notice" drag :auto-upload='false'
-            multiple :limit=10>
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处进行压缩
-            </div>
-        </el-upload>
-        <!-- <el-badge :value="resultNum" class="img_result_list">
-            <i class="iconfont icon-menu2" @click="openFile()"></i>
+        <!-- <div class="upload-opr"> -->
+        <div class="upload-list">
+            <el-upload action="" class="upload-box" ref="uploadImg" :on-change="change" :on-exceed="notice" drag :auto-upload='false'
+                multiple :limit=8 :show-file-list="false">
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">将PNG, JPG, JPEG文件拖到此处进行压缩
+                </div>
+            </el-upload>
             <div class="file_list">
-                <p v-for="(item,index) in fileList">{{index+1}}.{{item.name}}<i>{{item.flag}}</i></p>
+                <p v-for="(item,index) in tmpfileList">
+                    <span>{{item.name}}</span>
+                    <i class="iconfont icon-ai04 ready" v-if="item.flag==0"></i>
+                    <img src="../assets/images/loading.svg" class="loading" v-if="item.flag==1" />
+                    <i class="iconfont icon-duihao2 end" v-if="item.flag==2"></i>
+                </p>
             </div>
-        </el-badge> -->
+        </div>
+        <div class="upload-clear" @click="clear">
+            <i class=" iconfont icon-qingkong"></i>
+    
+        </div>
+        <div class="upload-compress" @click="compress">
+            <i class=" iconfont icon-ai04"></i>
+        
+        </div>
 
-        <el-button type="info" round @click="compress">压缩</el-button>
     </div>
 </template>
 <script>
@@ -26,7 +38,7 @@
                 resultNum: 0,
                 filePath: "",
                 pathList: [],
-                fileList: []
+                tmpfileList: []
             };
         },
         methods: {
@@ -34,50 +46,54 @@
                 console.log(this.filePath);
             },
             notice() {
-                alert("一次最多转换10张图片");
+                this.$message.error({
+                    message: 'No,No,No, 你的机器没那么牛逼, 一次最多转换8张图片',
+                    center: true
+                });
             },
             change(file, fileList) {
-                var pathList = [],
+                var params = [],
+                    pathList = [],
                     tmpfileList = []
+                this.filePath = fileList[0].raw.path.split("\\").slice(0, fileList[0].raw.path.split("\\").length -
+                    1).join("\\");
                 for (var i in fileList) {
                     pathList.push(fileList[i].raw.path);
                     tmpfileList.push({
-                        flag: false,
+                        flag: 0,
                         name: fileList[i].name,
                         filePath: fileList[i].raw.path
                     })
                 }
-                this.filePath = fileList[0].raw.path.split("\\").slice(0, fileList[0].raw.path.split("\\").length -
-                    1).join("\\");
-
-                this.pathList = pathList;
-                this.fileList = tmpfileList;
-
+                this.tmpfileList = tmpfileList;
+                params.push(pathList, tmpfileList);
+                this.pathList = params;
             },
             compress() {
                 if (!!this.pathList.length) {
+                    for (var x in this.tmpfileList) {
+                        this.tmpfileList[x].flag = 1;
+                    }
                     ipc.send('uploadImg', this.pathList);
                     this.$refs.uploadImg.clearFiles();
                     this.pathList = [];
+                } else {
+                    this.$message.error({
+                        message: '先加入图片到暂存区',
+                        center: true
+                    });
                 }
             },
-            notify(result) {
-                if (result.flag) {
-                    this.$notify.success({
-                        title: '压缩成功',
-                        message: result.filePath + result.newFile,
-                        dangerouslyUseHTMLString: true,
-                        type: 'success',
-                        position: 'bottom-right',
-                        duration: 2000
-                    });
-                    this.resultNum++;
-                }
+            clear(){
+                this.tmpfileList = [];
+                this.pathList = [];
             }
         },
         mounted() {
             ipc.on('uploadImg-return', (e, result) => {
-                this.notify(result);
+                this.tmpfileList = result;
+                // this.notify(result);
+                // console.log(result);
             })
         }
     }

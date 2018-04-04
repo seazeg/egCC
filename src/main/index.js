@@ -70,9 +70,10 @@ ipcMain.on('min', e => mainWindow.minimize());
 ipcMain.on('close', e => mainWindow.close());
 
 // 加载图片
-ipcMain.on('uploadImg', function (e, list) {
-  console.log("收到:", list);
+ipcMain.on('uploadImg', function (e, arr) {
   const _dir = process.cwd();
+  const list = arr[0];
+  const returnValue = arr[1];
   for (var i = 0; i < list.length; i++) {
     // console.log("times:",list.length);
     let path = list[i];
@@ -84,30 +85,24 @@ ipcMain.on('uploadImg', function (e, list) {
 
     setTimeout(() => {
       if (imgType == 'png') {
-        child_process.spawn(_dir + '/bin/win/' + getBin('pngquant'), ['--ext', '-end.png', path, '-v']).on('close', function (code) {
+        const process = child_process.spawn(_dir + '/bin/win/' + getBin('pngquant'), ['--ext', '-end.png', path, '-v']).on('close', function (code) {
           if (code == 0) {
             console.log('子进程已退出，退出码 ', code);
-            e.sender.send('uploadImg-return', {
-              flag: true,
-              oldFile: tempName,
-              newFile: fileName,
-              filePath: filePath
-            })
+            for (var x in returnValue) {
+              returnValue[x].filePath == path ? returnValue[x].flag = 2 : null;
+            }
+            e.sender.send('uploadImg-return', returnValue)
           }
         });
+
       } else if (imgType == 'jpg' || imgType == 'jpeg') {
-        // console.log(fileName);
-        // console.log(path);
-        // console.log(tempName);
-        child_process.spawn(_dir + '/bin/win/' + getBin('mozcjpeg'), ['-outfile', filePath + fileName, path]).on('close', function (code) {
+        const process = child_process.spawn(_dir + '/bin/win/' + getBin('mozcjpeg'), ['-outfile', filePath + fileName, path]).on('close', function (code) {
           if (code == 0) {
             console.log('子进程已退出，退出码 ', code);
-            e.sender.send('uploadImg-return', {
-              flag: true,
-              oldFile: tempName,
-              newFile: fileName,
-              filePath: filePath
-            })
+            for (var x in returnValue) {
+              returnValue[x].filePath == path ? returnValue[x].flag = 2 : null;
+            }
+            e.sender.send('uploadImg-return', returnValue)
           }
         });
       } else {

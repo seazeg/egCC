@@ -1,7 +1,6 @@
 @charset "UTF-8";
 @import 'theme.config.less';
-
-*{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -37,16 +36,14 @@ a:visited,
 a {
   margin: 0;
   padding: 0;
-  font-family: "微软雅黑","Helvetica Neue", "Montserrat", "Hiragino Sans GB", "LiHei Pro", Arial, sans-serif;
+  font-family: "微软雅黑", "Helvetica Neue", "Montserrat", "Hiragino Sans GB", "LiHei Pro", Arial, sans-serif;
   outline: none;
-  color:@font_color;
+  color: @font_color;
 }
 
-
-textarea{
-  color:@border_color;
+textarea {
+  color: @border_color;
 }
-
 
 h1,
 h2,
@@ -140,5 +137,10 @@ body {
   opacity: 0;
 }
 
+.el-notification__content p {
+  color: @deputy_color  !important
+}
 
-
+.el-message {
+  top: 50px !important;
+}
